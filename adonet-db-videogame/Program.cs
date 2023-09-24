@@ -1,57 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using adonet_db_videogame.Utility;
+using System.IO;
 
 namespace adonet_db_videogame
 {
-    class Program
+    class  Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            string server = "DESKTOP-8HJQROF\\SQLEXPRESS";
-            string database = "Videogame";
-            string connectionString = $"Server={server};Database={database};Integrated Security=True;";
+            Console.WriteLine("Connessione stabilita, scegli cosa vuoi fare:\r\n1) 1 inserire un nuovo videogioco\r\n2) ricercare un videogioco per id\r\n3) ricercare tutti i videogiochi aventi il nome contenente una determinata stringa inserita in input\r\n4) cancellare un videogioco\r\n5) chiudere il programma");
+            int number = int.Parse(Console.ReadLine());
 
+            string videoGameName = "";
+            string videoGameOverview = "";
+            long videoGameId;
+            DateTime videoGamenReleaseDate;
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            while (number > 0 && number < 5)
             {
-                try
+                switch (number)
                 {
-                    sqlConnection.Open();
-                    Console.WriteLine("Connessione stabilita, scegli cosa vuoi fare:\r\n1) 1 inserire un nuovo videogioco\r\n2) ricercare un videogioco per id\r\n3) ricercare tutti i videogiochi aventi il nome contenente una determinata stringa inserita in input\r\n4) cancellare un videogioco\r\n5) chiudere il programma");
+                    case 1:
+                        Console.WriteLine("\nAggiungere un nome: ");
+                        videoGameName = Console.ReadLine();
+                        Console.WriteLine("\nAggiungere una descrizione: ");
+                        videoGameOverview = Console.ReadLine();
+                        videoGamenReleaseDate = DateTime.Now;
 
-                    string query = "SELECT * from videogames";
-                    using (SqlCommand cmd = new SqlCommand(query, sqlConnection)) 
+                        Videogame videogame = new Videogame(videoGameName, videoGameOverview, videoGamenReleaseDate);
+                        bool isCreated = DBManager.CreateGame(videogame);
 
-                    using (SqlDataReader reader = cmd.ExecuteReader()) 
-                    {
-                        while (reader.Read())
+                        if (isCreated)
                         {
-                            Console.WriteLine();
-
-                            Console.WriteLine($"Titolo Videogame: {reader.GetString(1)}");
-                            Console.WriteLine();
-
-                            Console.WriteLine($"Descrizion: {reader.GetString(2)}");
-                            Console.WriteLine();
-
-                            Console.WriteLine($"Data di rilascio: {reader.GetDateTime(3)}");
-                            Console.WriteLine();
-
+                            Console.WriteLine("\nVideogame creato con successo");
                         }
-                    }
-                    Console.ReadLine();
-                }
+                        else
+                        {
+                        Console.WriteLine("\nC'è stato un problema nella creazione del videogame");
+                        }
 
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
+                          break; 
+
+                    case 2:
+                        Console.WriteLine("\n Ricerca un gioco per ID: ");
+                        videoGameId = int.Parse(Console.ReadLine());
+                        Console.WriteLine(DBManager.GetGameId(videoGameId)?.ToString() ?? "NOT FOUND");
+
+                        break;
+
                 }
             }
 
+            Console.WriteLine("Sei uscito");
+            Console.ReadLine();
+                       
         }
+             
     }
 }
