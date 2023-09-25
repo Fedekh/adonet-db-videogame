@@ -68,10 +68,7 @@ namespace adonet_db_videogame.Utility
                     connection.Open();
 
 
-                    string query = $"SELECT v.id, v.name, v.overview, v.release_date, softerH.id " +
-                                   $"FROM videogames v " +
-                                   $"JOIN software_houses softerH ON softerH.id = v.software_house_id " +
-                                   $"WHERE v.name LIKE(@Name);";
+                    string query = $"SELECT v.id, v.name, v.overview, v.release_date, softerH.id FROM videogames v JOIN software_houses softerH ON softerH.id = v.software_house_id WHERE v.name LIKE(@Name);";
 
                     using (SqlCommand cmd = new SqlCommand(query, connection))
                     {
