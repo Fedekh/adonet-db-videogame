@@ -27,7 +27,7 @@ namespace adonet_db_videogame.Utility
 
         public override string ToString()
         {
-            return $"ID: {this.Id} -Titolo: {this.Name}{Environment.NewLine} {Environment.NewLine}-Descrizione: {this.Overview} {Environment.NewLine}{Environment.NewLine}-Rilasciato: {this.ReleaseDate}{Environment.NewLine}";
+            return $"\r\nID: {this.Id} \r\nTitolo: {this.Name} \r\nDescrizione: {this.Overview}\r\nRilasciato: {this.ReleaseDate}";
         }
     }
 }
