@@ -69,15 +69,14 @@ namespace adonet_db_videogame
                         {
                             foreach (var item in videogames)
                             {
-                                Console.WriteLine("--------------------------------------------");
+                                Console.WriteLine("\n\r");
                                 Console.WriteLine(item?.ToString() ?? "404 NOT FOUND :(");
-                                Console.WriteLine("--------------------------------------------");
                             }
                             Console.WriteLine($"{Environment.NewLine}{videogames.Count()} risultati trovati{Environment.NewLine}");
                         }
                         else
                         {
-                            Console.WriteLine("Nessuna Corrispondenza");
+                            Console.WriteLine("Nessuna Corrispondenza trovata");
                         }
 
                         break;
